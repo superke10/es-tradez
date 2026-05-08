@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Menu, X, TrendingUp } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const navLinks = [
   { label: "Markets", href: "#markets" },
@@ -28,13 +27,13 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
-            <TrendingUp className="w-4 h-4 text-primary-foreground" />
-          </div>
-          <span className="font-grotesk font-700 text-lg tracking-tight">
-            es-<span className="text-primary">tradez</span>
-          </span>
+        <a href="#" className="flex items-center">
+          <img
+            src="https://media.base44.com/images/public/69fe61eeb38f0943e5b65ce4/6c9d1d6cd_IMG_57F797E8-10B7-47D9-B41B-21B414EFBA0B.jpg"
+            alt="es-tradez"
+            className="h-10 w-auto object-contain"
+            style={{ mixBlendMode: "screen" }}
+          />
         </a>
 
         {/* Desktop Nav */}

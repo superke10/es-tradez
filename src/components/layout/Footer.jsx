@@ -1,18 +1,16 @@
-import { TrendingUp } from "lucide-react";
-
 export default function Footer() {
   return (
     <footer className="border-t border-border bg-card">
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid md:grid-cols-3 gap-10">
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-7 h-7 bg-primary rounded flex items-center justify-center">
-                <TrendingUp className="w-3.5 h-3.5 text-primary-foreground" />
-              </div>
-              <span className="font-grotesk font-bold text-base">
-                es-<span className="text-primary">tradez</span>
-              </span>
+            <div className="mb-4">
+              <img
+                src="https://media.base44.com/images/public/69fe61eeb38f0943e5b65ce4/6c9d1d6cd_IMG_57F797E8-10B7-47D9-B41B-21B414EFBA0B.jpg"
+                alt="es-tradez"
+                className="h-12 w-auto object-contain"
+                style={{ mixBlendMode: "screen" }}
+              />
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Professional trading across Forex, Crypto, Stocks, and Futures — powered by data-driven precision.
