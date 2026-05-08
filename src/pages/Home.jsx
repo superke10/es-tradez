@@ -5,6 +5,7 @@ import HeroSection from "@/components/home/HeroSection";
 import MarketsSection from "@/components/home/MarketsSection";
 import SignalsSection from "@/components/home/SignalsSection";
 import PerformanceSection from "@/components/home/PerformanceSection";
+import PerformanceDashboard from "@/components/home/PerformanceDashboard";
 import AboutSection from "@/components/home/AboutSection";
 import ContactSection from "@/components/home/ContactSection";
 
@@ -16,6 +17,7 @@ export default function Home() {
       <HeroSection />
       <MarketsSection />
       <SignalsSection />
+      <PerformanceDashboard />
       <PerformanceSection />
       <AboutSection />
       <ContactSection />
