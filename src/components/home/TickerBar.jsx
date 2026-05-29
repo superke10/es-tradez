@@ -17,7 +17,7 @@ export default function TickerBar() {
   const doubled = [...tickers, ...tickers];
 
   return (
-    <div className="bg-card border-b border-border overflow-hidden mt-16">
+    <div className="bg-card border-b border-border overflow-hidden">
       <div className="flex ticker-track whitespace-nowrap py-2.5">
         {doubled.map((t, i) => (
           <div key={i} className="inline-flex items-center gap-2 px-6 border-r border-border/40">

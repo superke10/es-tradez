@@ -12,8 +12,8 @@ import ContactSection from "@/components/home/ContactSection";
 export default function Home() {
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
       <TickerBar />
+      <Navbar />
       <HeroSection />
       <MarketsSection />
       <SignalsSection />
