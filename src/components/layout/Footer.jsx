@@ -1,4 +1,20 @@
+import { Link } from "react-router-dom";
+
 export default function Footer() {
+  const markets = [
+    { label: "Forex", to: "/markets/forex" },
+    { label: "Cryptocurrency", to: "/markets/cryptocurrency" },
+    { label: "Stocks & Equities", to: "/markets/stocks" },
+    { label: "Futures & Options", to: "/markets/futures" },
+  ];
+
+  const company = [
+    { label: "About Us", to: "/company/about" },
+    { label: "Trading Signals", to: "/company/signals" },
+    { label: "Performance", to: "/company/performance" },
+    { label: "Contact", to: "/company/contact" },
+  ];
+
   return (
     <footer className="border-t border-border bg-card">
       <div className="max-w-7xl mx-auto px-6 py-12">
@@ -29,8 +45,10 @@ export default function Footer() {
           <div>
             <h4 className="text-sm font-semibold text-foreground mb-4 uppercase tracking-widest">Markets</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              {["Forex", "Cryptocurrency", "Stocks & Equities", "Futures & Options"].map((m) => (
-                <li key={m} className="hover:text-primary transition-colors cursor-pointer">{m}</li>
+              {markets.map((m) => (
+                <li key={m.label}>
+                  <Link to={m.to} className="hover:text-primary transition-colors">{m.label}</Link>
+                </li>
               ))}
             </ul>
           </div>
@@ -38,8 +56,10 @@ export default function Footer() {
           <div>
             <h4 className="text-sm font-semibold text-foreground mb-4 uppercase tracking-widest">Company</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              {["About Us", "Trading Signals", "Performance", "Contact"].map((item) => (
-                <li key={item} className="hover:text-primary transition-colors cursor-pointer">{item}</li>
+              {company.map((item) => (
+                <li key={item.label}>
+                  <Link to={item.to} className="hover:text-primary transition-colors">{item.label}</Link>
+                </li>
               ))}
             </ul>
           </div>

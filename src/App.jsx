@@ -7,6 +7,14 @@ import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 // Add page imports here
 import Home from "./pages/Home";
+import Forex from "./pages/markets/Forex";
+import Cryptocurrency from "./pages/markets/Cryptocurrency";
+import Stocks from "./pages/markets/Stocks";
+import Futures from "./pages/markets/Futures";
+import AboutUs from "./pages/company/AboutUs";
+import TradingSignals from "./pages/company/TradingSignals";
+import Performance from "./pages/company/Performance";
+import Contact from "./pages/company/Contact";
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -35,6 +43,14 @@ const AuthenticatedApp = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/markets/forex" element={<Forex />} />
+      <Route path="/markets/cryptocurrency" element={<Cryptocurrency />} />
+      <Route path="/markets/stocks" element={<Stocks />} />
+      <Route path="/markets/futures" element={<Futures />} />
+      <Route path="/company/about" element={<AboutUs />} />
+      <Route path="/company/signals" element={<TradingSignals />} />
+      <Route path="/company/performance" element={<Performance />} />
+      <Route path="/company/contact" element={<Contact />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
