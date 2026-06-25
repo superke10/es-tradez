@@ -2,17 +2,21 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Activity, TrendingUp, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
+import { useMarketQuotes, formatPrice, formatChange } from "@/hooks/useMarketQuotes";
 
 const instruments = [
-  { name: "Gold Futures", symbol: "XAUUSD", type: "Commodity" },
-  { name: "Crude Oil (WTI)", symbol: "CL", type: "Energy" },
-  { name: "E-mini S&P 500", symbol: "ES", type: "Index Future" },
-  { name: "Nasdaq Futures", symbol: "NQ", type: "Index Future" },
-  { name: "Natural Gas", symbol: "NG", type: "Energy" },
-  { name: "Silver Futures", symbol: "XAGUSD", type: "Commodity" },
+  { name: "Gold Futures", symbol: "XAUUSD", finnhub: "GLD", type: "Commodity" },
+  { name: "Crude Oil (WTI)", symbol: "CL", finnhub: "USO", type: "Energy" },
+  { name: "E-mini S&P 500", symbol: "ES", finnhub: "SPY", type: "Index Future" },
+  { name: "Nasdaq Futures", symbol: "NQ", finnhub: "QQQ", type: "Index Future" },
+  { name: "Natural Gas", symbol: "NG", finnhub: "UNG", type: "Energy" },
+  { name: "Silver Futures", symbol: "XAGUSD", finnhub: "SLV", type: "Commodity" },
 ];
 
 export default function Futures() {
+  const { data: quotes } = useMarketQuotes(instruments.map((item) => item.finnhub));
+  const quoteMap = new Map((quotes || []).map((q) => [q.symbol, q]));
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -47,18 +51,35 @@ export default function Futures() {
             ))}
           </div>
 
-          <h2 className="font-grotesk font-bold text-foreground text-lg mb-4">Covered Instruments</h2>
+          <div className="flex items-center gap-2 mb-4">
+            <h2 className="font-grotesk font-bold text-foreground text-lg">Covered Instruments</h2>
+            <span className="flex items-center gap-1.5 text-xs text-green font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-green animate-pulse" />
+              Live
+            </span>
+          </div>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
-            {instruments.map((item, i) => (
-              <motion.div key={item.symbol} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 + 0.3 }}
-                className="bg-card border border-border rounded-xl p-4 flex justify-between items-center">
-                <div>
-                  <div className="font-grotesk font-bold text-foreground">{item.name}</div>
-                  <div className="text-xs text-muted-foreground mt-0.5">{item.symbol}</div>
-                </div>
-                <span className="text-xs bg-purple-400/10 text-purple-400 px-2 py-1 rounded font-semibold">{item.type}</span>
-              </motion.div>
-            ))}
+            {instruments.map((item, i) => {
+              const q = quoteMap.get(item.finnhub);
+              return (
+                <motion.div key={item.symbol} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 + 0.3 }}
+                  className="bg-card border border-border rounded-xl p-4 flex justify-between items-center">
+                  <div>
+                    <div className="font-grotesk font-bold text-foreground">{item.name}</div>
+                    <div className="text-xs text-muted-foreground mt-0.5">{item.symbol}</div>
+                    <div className="flex items-center gap-1.5 mt-1.5">
+                      <span className="text-sm font-bold text-foreground">{q && q.price ? formatPrice(q.price) : "—"}</span>
+                      {q && q.price && (
+                        <span className={`text-xs font-semibold ${q.percentChange >= 0 ? "text-green" : "text-red"}`}>
+                          {formatChange(q.percentChange)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <span className="text-xs bg-purple-400/10 text-purple-400 px-2 py-1 rounded font-semibold">{item.type}</span>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </div>

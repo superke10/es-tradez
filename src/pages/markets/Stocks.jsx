@@ -2,17 +2,21 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { BarChart2, TrendingUp, Award } from "lucide-react";
 import { motion } from "framer-motion";
+import { useMarketQuotes, formatPrice, formatChange } from "@/hooks/useMarketQuotes";
 
 const stocks = [
-  { name: "Apple", symbol: "AAPL", sector: "Technology" },
-  { name: "Tesla", symbol: "TSLA", sector: "EV / Auto" },
-  { name: "NVIDIA", symbol: "NVDA", sector: "Semiconductors" },
-  { name: "Amazon", symbol: "AMZN", sector: "E-Commerce" },
-  { name: "Microsoft", symbol: "MSFT", sector: "Technology" },
-  { name: "S&P 500", symbol: "SPX", sector: "Index" },
+  { name: "Apple", symbol: "AAPL", finnhub: "AAPL", sector: "Technology" },
+  { name: "Tesla", symbol: "TSLA", finnhub: "TSLA", sector: "EV / Auto" },
+  { name: "NVIDIA", symbol: "NVDA", finnhub: "NVDA", sector: "Semiconductors" },
+  { name: "Amazon", symbol: "AMZN", finnhub: "AMZN", sector: "E-Commerce" },
+  { name: "Microsoft", symbol: "MSFT", finnhub: "MSFT", sector: "Technology" },
+  { name: "S&P 500", symbol: "SPX", finnhub: "SPY", sector: "Index" },
 ];
 
 export default function Stocks() {
+  const { data: quotes } = useMarketQuotes(stocks.map((s) => s.finnhub));
+  const quoteMap = new Map((quotes || []).map((q) => [q.symbol, q]));
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -47,18 +51,35 @@ export default function Stocks() {
             ))}
           </div>
 
-          <h2 className="font-grotesk font-bold text-foreground text-lg mb-4">Covered Instruments</h2>
+          <div className="flex items-center gap-2 mb-4">
+            <h2 className="font-grotesk font-bold text-foreground text-lg">Covered Instruments</h2>
+            <span className="flex items-center gap-1.5 text-xs text-green font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-green animate-pulse" />
+              Live
+            </span>
+          </div>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
-            {stocks.map((s, i) => (
-              <motion.div key={s.symbol} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 + 0.3 }}
-                className="bg-card border border-border rounded-xl p-4 flex justify-between items-center">
-                <div>
-                  <div className="font-grotesk font-bold text-foreground">{s.name}</div>
-                  <div className="text-xs text-muted-foreground mt-0.5">{s.symbol}</div>
-                </div>
-                <span className="text-xs bg-blue-400/10 text-blue-400 px-2 py-1 rounded font-semibold">{s.sector}</span>
-              </motion.div>
-            ))}
+            {stocks.map((s, i) => {
+              const q = quoteMap.get(s.finnhub);
+              return (
+                <motion.div key={s.symbol} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 + 0.3 }}
+                  className="bg-card border border-border rounded-xl p-4 flex justify-between items-center">
+                  <div>
+                    <div className="font-grotesk font-bold text-foreground">{s.name}</div>
+                    <div className="text-xs text-muted-foreground mt-0.5">{s.symbol}</div>
+                    <div className="flex items-center gap-1.5 mt-1.5">
+                      <span className="text-sm font-bold text-foreground">{q && q.price ? formatPrice(q.price) : "—"}</span>
+                      {q && q.price && (
+                        <span className={`text-xs font-semibold ${q.percentChange >= 0 ? "text-green" : "text-red"}`}>
+                          {formatChange(q.percentChange)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <span className="text-xs bg-blue-400/10 text-blue-400 px-2 py-1 rounded font-semibold">{s.sector}</span>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </div>
