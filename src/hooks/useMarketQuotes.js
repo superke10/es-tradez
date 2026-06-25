@@ -20,7 +20,7 @@ export function useMarketQuotes(symbols) {
       const res = await base44.functions.invoke('getMarketQuotes', { symbols });
       return res.data.quotes || [];
     },
-    refetchInterval: 30000,
-    staleTime: 25000,
+    refetchInterval: 2000,
+    staleTime: 1500,
   });
 }
